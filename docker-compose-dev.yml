@@ -1,0 +1,21 @@
+#
+# docker-compose-dev.yml for Hermes Agent (개발용 완전 격리)
+#
+# 사용법:
+#   cd /path/to/hermes-folder
+#   docker compose -f docker-compose-dev.yml up -d
+#
+
+services:
+  gateway:
+    build: .
+    image: hermes-agent-dev
+    container_name: hermes-dev
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - ~/.hermes-dev:/opt/data
+    environment:
+      - HERMES_UID=${HERMES_UID:-10000}
+      - HERMES_GID=${HERMES_GID:-10000}
+    command: ["gateway", "run"]
